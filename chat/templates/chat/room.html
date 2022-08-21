@@ -113,13 +113,13 @@ body {
 <script type="text/javascript">
 
     var url = 'ws://' + window.location.host +
-            '/ws/{roomname}/{username}/';        
+            '/ws/{{roomname}}/{{username}}/';        
      var chatSocket = new WebSocket(url);
      alert("ready");
      chatSocket.onmessage = function(e) {
          alert("message recieved");
             var data = JSON.parse(e.data);
-            $("#display" ).append(`<div class="container darker"><b>znydee</b><p>${data.message}</p><span class="time-left">today</span>
+            $("#display" ).append(`<div class="container darker"><b>${data.sender}</b><p>${data.message}</p><span class="time-left">today</span>
 </div>`);
         };
     chatSocket.onclose = function(e)
@@ -129,7 +129,9 @@ body {
   $("#chat-message-submit").click(function(e){
   alert("message about to be sent");
   var message = $('#message').val();
+  var sender = $('#username').val();
   chatSocket.send(JSON.stringify({
+                  'sender': sender,
                 'message': message
             }));
        alert("message sent");
